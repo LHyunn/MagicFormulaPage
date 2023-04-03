@@ -211,26 +211,46 @@ def get_stock_list(market = "ALL"):
 
 
 
-def get_listing_date(stock_code):
+def get_listing_date(stock_code=None):
     kosdaq_data, kospi_data = return_only_stock_df()
     kosdaq_data = kosdaq_data[["단축코드", "주식 상장 일자"]]
     kosdaq_data = kosdaq_data.rename(columns={"주식 상장 일자": "상장일자"})
     kospi_data = kospi_data[["단축코드", "상장일자"]]
     listing_date = pd.concat([kosdaq_data, kospi_data])
-    listing_date = listing_date[listing_date["단축코드"] == stock_code]
-    listing_date = listing_date["상장일자"].values[0]
-    return listing_date
+    if stock_code is None:
+        return listing_date
+    else:
+        listing_date = listing_date[listing_date["단축코드"] == stock_code]
+        listing_date = listing_date["상장일자"].values[0]
+        return listing_date
 
-def get_stock_name(stock_code):
+def get_stock_name(stock_code=None):
     kosdaq_data, kospi_data = return_only_stock_df()
     kosdaq_data = kosdaq_data[["단축코드", "한글종목명"]]
     kosdaq_data = kosdaq_data.rename(columns={"한글종목명": "종목명"})
     kospi_data = kospi_data[["단축코드", "한글명"]]
     kospi_data = kospi_data.rename(columns={"한글명": "종목명"})
     stock_name = pd.concat([kosdaq_data, kospi_data])
-    stock_name = stock_name[stock_name["단축코드"] == stock_code]
-    stock_name = stock_name["종목명"].values[0]
-    return stock_name
+    if stock_code is None:
+        return stock_name
+    else:
+        stock_name = stock_name[stock_name["단축코드"] == stock_code]
+        stock_name = stock_name["종목명"].values[0]
+        return stock_name
+
+def get_stock_market_cap(stock_code=None):
+    
+    kosdaq_data, kospi_data = return_only_stock_df()
+    kosdaq_data = kosdaq_data[["단축코드", "전일기준 시가총액 (억)"]]
+    kosdaq_data = kosdaq_data.rename(columns={"전일기준 시가총액 (억)": "시가총액"})
+    kospi_data = kospi_data[["단축코드", "시가총액"]]
+    market_cap = pd.concat([kosdaq_data, kospi_data])
+    if stock_code is None:
+        return market_cap
+    else:
+        market_cap = market_cap[market_cap["단축코드"] == stock_code]
+        market_cap = market_cap["시가총액"].values[0]
+        return market_cap
     
     
     
