@@ -1,3 +1,8 @@
 altair
 pandas
 streamlit
+lxml
+tqdm
+html5lib
+natsort
+bs4

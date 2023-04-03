@@ -1,0 +1,3 @@
+Data/*
+modules/__pycache__/*.pyc
+test.ipynb
