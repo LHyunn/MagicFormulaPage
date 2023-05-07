@@ -1,3 +1,4 @@
 Data/*
 modules/__pycache__/*.pyc
 test.ipynb
+재무재표 크롤링.ipynb

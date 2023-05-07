@@ -10,9 +10,8 @@ def update_kospi_stock_code():
     if os.path.exists(f"/app/Data/KRX/kospi_stock_info.csv"):
         file_time = datetime.datetime.fromtimestamp(os.path.getmtime(f"/app/Data/KRX/kospi_stock_info.csv"))
         if file_time.date() == datetime.datetime.today().date():
-            return file_time
+            return file_time.strftime('%Y-%m-%d %H:%M:%S')
     else:
-        
         ssl._create_default_https_context = ssl._create_unverified_context
         urllib.request.urlretrieve("https://new.real.download.dws.co.kr/common/master/kospi_code.mst.zip",
                                 "/app/Data/KRX/kospi_code.zip")
@@ -97,7 +96,7 @@ def update_kosdaq_stock_code(verbose=False):
     if os.path.exists(f"/app/Data/KRX/kosdaq_stock_info.csv"):
         file_time = datetime.datetime.fromtimestamp(os.path.getmtime(f"/app/Data/KRX/kospi_stock_info.csv"))
         if file_time.date() == datetime.datetime.today().date():
-            return file_time
+            return file_time.strftime('%Y-%m-%d %H:%M:%S')
     else:
         ssl._create_default_https_context = ssl._create_unverified_context
         urllib.request.urlretrieve("https://new.real.download.dws.co.kr/common/master/kosdaq_code.mst.zip",

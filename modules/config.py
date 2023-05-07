@@ -34,8 +34,8 @@ def set_sidebar():
     """
     Streamlit 사이드바 설정.
     """
-    st.sidebar.title("2023 캡스톤디자인")
+    st.sidebar.title("종목 검색")
 
-    menu = st.sidebar.selectbox("",("Home", "Data", "Model", "Result"))
+    menu = st.sidebar.selectbox("",("적정가의 가치주", "마법 공식", "신 마법 공식", "S-RIM 적정주가", "전분기실적 관심주", "실적속보 관심주"))
 
     return menu
