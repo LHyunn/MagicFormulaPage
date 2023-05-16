@@ -55,13 +55,10 @@ def save_df_by_year(path, report_type):
 def main():
     error_list = []
     stock_code_list = natsorted(public_stock.get_stock_list("ALL"))
+    print("재무제표 크롤링 시작. 전체 종목 수: ", len(stock_code_list))
     for stock_code in tqdm(stock_code_list):
         try:
-            if os.path.exists(f"/app/Data/Info/Sort By Stock Code/{stock_code}"):
-                pass
-            else:   
-                os.makedirs(f"/app/Data/Info/Sort By Stock Code/{stock_code}")
-
+            os.makedirs(f"/app/Data/Info/Sort By Stock Code/{stock_code}", exist_ok=True)
             tables = pd.read_html(f"https://comp.fnguide.com/SVO2/ASP/SVD_main.asp?pGB=1&gicode=A{stock_code}&cID=&MenuYn=Y&ReportGB=&NewMenuID=11&stkGb=&strResearchYN=")
             tables[11].to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/재무제표-연결-연간.csv")
             preprocess_financial_statement_1(f"/app/Data/Info/Sort By Stock Code/{stock_code}/재무제표-연결-연간.csv").to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/재무제표-연결-연간.csv")
@@ -76,7 +73,6 @@ def main():
             preprocess_financial_statement_2(tables[1]).to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/포괄손익계산서-연결-분기.csv")
             preprocess_financial_statement_2(tables[2]).to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/재무상태표-연결-연간.csv")
             preprocess_financial_statement_2(tables[3]).to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/재무상태표-연결-분기.csv")
-            
             tables = pd.read_html(f"https://comp.fnguide.com/SVO2/ASP/SVD_Finance.asp?pGB=1&gicode=A{stock_code}&cID=&MenuYn=Y&ReportGB=B&NewMenuID=103&stkGb=701")
             preprocess_financial_statement_2(tables[0]).to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/포괄손익계산서-별도-연간.csv")
             preprocess_financial_statement_2(tables[1]).to_csv(f"/app/Data/Info/Sort By Stock Code/{stock_code}/포괄손익계산서-별도-분기.csv")
@@ -87,13 +83,14 @@ def main():
             print(e)
             error_list.append(stock_code)
             
+    print("재무제표 크롤링 종료. 오류 발생 종목 수: ", len(error_list))
+    print("재무제표 가공 시작.")
+            
     #error_list를 txt파일로 저장
     with open("/app/Data/log/재무제표 로드 오류.txt", "w") as f:
         for error in error_list:
             f.write(error + "\n")
             
-    
-    
     #재무제표_별도_분기
     path = glob("/app/Data/Info/Sort By Stock Code/**/재무제표-별도-분기.csv")
     df_list, year = save_df_by_year(path, 재무_별도)
@@ -142,5 +139,15 @@ def main():
     for i in year:
         df_list[i].to_csv("/app/Data/Info/Sort By Time/연간/연결/{}-포괄손익계산서-연결-연간.csv".format(i.replace("/","-")))
         
+    print("재무제표 가공 완료.")
+        
 if __name__ == "__main__":
+    os.makedirs("/app/Data/Info/Sort By Time/분기/별도", exist_ok=True)
+    os.makedirs("/app/Data/Info/Sort By Time/분기/연결", exist_ok=True)
+    os.makedirs("/app/Data/Info/Sort By Time/연간/별도", exist_ok=True)
+    os.makedirs("/app/Data/Info/Sort By Time/연간/연결", exist_ok=True)
+    os.makedirs("/app/Data/log", exist_ok=True)
+    os.makedirs("/app/Data/KRX", exist_ok=True)
+    os.makedirs("/app/Data/Info/Sort By Stock Code", exist_ok=True)
+    os.makedirs("/app/Data/마법공식", exist_ok=True)
     main()

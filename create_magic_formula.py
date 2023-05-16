@@ -5,6 +5,7 @@ import numpy as np
 
 
 def main():
+    print("마법공식 생성 시작.")
     df = pd.DataFrame(columns=['종목명','시가총액(억 원)','부채율(%)','배당률(%)','PBR','GP/A'])
     #재무제표 데이터 불러오기
     report_folder = "/app/Data/Info/Sort By Time/연간/연결"
@@ -25,7 +26,8 @@ def main():
     kosdaq_df = pd.read_csv(stock_folder + "/" + "kosdaq_stock_info.csv", encoding='utf-8-sig', index_col=0)
     kosdaq_df.index = kosdaq_df.index.astype(str)
     kosdaq_df.index = kosdaq_df.index.str.zfill(6)
-
+    print("데이터 불러오기 완료.")
+    print("종목별 데이터 생성.")
     for stock_code in report_df.index:
         try:
             종목명 = kospi_df.loc[stock_code]['한글명']
@@ -63,7 +65,11 @@ def main():
     if os.path.exists("/app/Data/마법공식/마법공식.csv"):
         os.remove("/app/Data/마법공식/마법공식.csv")
     df.to_csv("/app/Data/마법공식/마법공식.csv", encoding='utf-8-sig')
+    print("마법공식 생성 완료.")
         
+        
+if __name__ == "__main__":
+    main()
             
    
     

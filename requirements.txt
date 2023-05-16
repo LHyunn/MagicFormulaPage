@@ -1,8 +1,10 @@
 altair
 pandas
+numpy
 streamlit
 lxml
 tqdm
+glob
 html5lib
 natsort
 bs4
