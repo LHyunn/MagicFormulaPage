@@ -9,6 +9,7 @@ from glob import glob
 def update_kospi_stock_code():
     
     ssl._create_default_https_context = ssl._create_unverified_context
+    os.makedirs("/app/Data/KRX", exist_ok=True)
     urllib.request.urlretrieve("https://new.real.download.dws.co.kr/common/master/kospi_code.mst.zip",
                             "/app/Data/KRX/kospi_code.zip")
     
@@ -90,6 +91,7 @@ def update_kospi_stock_code():
     
 def update_kosdaq_stock_code(verbose=False):
     ssl._create_default_https_context = ssl._create_unverified_context
+    os.makedirs("/app/Data/KRX", exist_ok=True)
     urllib.request.urlretrieve("https://new.real.download.dws.co.kr/common/master/kosdaq_code.mst.zip",
                             "/app/Data/KRX/kosdaq_code.zip")
     
