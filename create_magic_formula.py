@@ -15,7 +15,7 @@ def main():
     report_df.index = report_df.index.str.zfill(6)
     #포괄손익계산서 데이터 불러오기
     report_folder = "/app/Data/Info/Sort By Time/연간/연결"
-    report2_df = pd.read_csv(report_folder + "/" + "2022-12-포괄손익계산표-연결-연간.csv", encoding='utf-8-sig', index_col=0)
+    report2_df = pd.read_csv(report_folder + "/" + "2022-12-포괄손익계산서-연결-연간.csv", encoding='utf-8-sig', index_col=0)
     report2_df.index = report2_df.index.astype(str)
     report2_df.index = report2_df.index.str.zfill(6)
     #종목 데이터 불러오기
