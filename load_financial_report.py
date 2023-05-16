@@ -53,6 +53,8 @@ def save_df_by_year(path, report_type):
 
 
 def main():
+    _ = public_stock.update_kosdaq_stock_code()
+    _ = public_stock.update_kospi_stock_code()
     error_list = []
     stock_code_list = natsorted(public_stock.get_stock_list("ALL"))
     print("재무제표 크롤링 시작. 전체 종목 수: ", len(stock_code_list))
